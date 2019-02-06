@@ -1,0 +1,95 @@
+package aVl;
+
+
+public class Avl {
+	private Node root;
+	private int size=0;
+	
+	private class Node{
+		int data;
+		Node left;
+		Node right;
+		int height;
+		int balFac;
+	}
+	
+	public Avl(int[] sa) {
+		root=construct(0,sa.length-1,sa);
+	}
+
+	private Node construct(int sIdx, int eIdx, int[] sa) {
+		if(sIdx>eIdx) {
+			return null;
+		}
+		Node node=new Node();
+		this.size++;
+		int mid=(sIdx+eIdx)/2;
+		node.data=sa[mid];
+		node.left=construct(sIdx,mid-1, sa);
+		node.right=construct(mid+1, eIdx, sa);
+		return node;
+	}
+	
+	public void display() {
+
+		display(root);
+
+	}
+
+	private void display(Node node) {
+		if (node == null) {
+			return;
+		}
+
+		String str = "";
+
+		str += node.left != null ? node.left.data + " <- " : ". <- ";
+		str += node.data + "[" + node.height + "," + node.bal + "]";
+		str += node.right != null ? " -> " + node.right.data : " -> .";
+		System.out.println(str);
+		display(node.left);
+		display(node.right);
+
+	}
+
+	public int max() {
+		return max(root);
+	}
+
+	private int max(Node node) {
+		if (node.right == null) {
+			return node.data;
+		}
+		return max(node.right);
+	}
+
+	public int min() {
+		return min(root);
+	}
+
+	private int min(Node node) {
+		if (node.left == null) {
+			return node.data;
+		}
+		return min(node.left);
+	}
+
+	public boolean find(int data) {
+		return find(root, data);
+	}
+
+	private boolean find(Node node, int data) {
+		if (node == null) {
+			return false;
+		}
+		if (node.data == data) {
+			return true;
+		}
+
+		if (data > node.data) {
+			return find(node.right, data);
+		} else {
+			return find(node.left, data);
+		}
+	}
+}

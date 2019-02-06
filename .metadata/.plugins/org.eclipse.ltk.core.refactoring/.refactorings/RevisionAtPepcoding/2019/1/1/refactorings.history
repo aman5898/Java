@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;RevisionAtPepcoding/src/Heap&apos; to &apos;heap&apos;" description="Rename resource &apos;Heap&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Heap" name="heap" stamp="1546347835264" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;RevisionAtPepcoding/src/linked_list/LinkedLlist.java&apos; to &apos;LinkedList.java&apos;" description="Rename resource &apos;LinkedLlist.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/linked_list/LinkedLlist.java" name="LinkedList.java" stamp="1546501648147" updateReferences="true"/>
+</session>

@@ -1,0 +1,594 @@
+package linked_list;
+
+public class LinkedList {
+	Node recurPointer;
+	Node Ispallindromeleft;
+	Node foldLeft;
+	Node foldLeftN;
+
+	private class Node {
+
+		int data;
+
+		Node next;
+
+	}
+
+	Node head;
+	Node tail;
+	int size;
+
+	public int getfirst() {
+		if (size == 0) {
+			return -1;
+
+		} else
+			return head.data;
+	}
+
+	public int getlast() {
+		if (size == 0)
+			return -1;
+		else
+			return tail.data;
+	}
+
+	public int getat(int idx) {
+		if (idx < 0 || idx >= size) {
+			return -1;
+
+		} else {
+
+			Node temp = head;
+			for (int i = 0; i < idx; i++) {
+
+				temp = temp.next;
+
+			}
+
+			return temp.data;
+
+		}
+
+	}
+
+	public Node getNodeAt(int idx) {
+
+		if (idx < 0 || idx >= size) {
+			return null;
+
+		} else if (idx == 0) {
+			return head;
+
+		} else if (idx == size - 1) {
+			return tail;
+		} else {
+			Node temp = head;
+
+			for (int i = 0; i < idx; i++) {
+
+				temp = temp.next;
+
+			}
+
+			return temp;
+		}
+	}
+
+	public void addfirst(int data) {
+		Node node = new Node();
+		node.data = data;
+		if (this.size() == 0) {
+			head = tail = node;
+
+		} else {
+
+			node.next = head;
+			head = node;
+		}
+		size++;
+
+	}
+
+	public void addlast(int data) {
+
+		Node node = new Node();
+		node.data = data;
+		if (this.size() == 0) {
+
+			head = tail = node;
+
+		} else {
+
+			tail.next = node;
+			tail = node;
+
+		}
+
+		size++;
+
+	}
+
+	public void addat(int data, int idx) {
+		if (idx < 0 | idx > size) {
+			return;
+		}
+
+		else if (idx == 0) {
+			addfirst(data);
+
+		} else if (idx == size) {
+			addlast(data);
+		} else {
+			Node node = new Node();
+			node.data = data;
+
+			Node temp = head;
+
+			for (int i = 0; i < idx - 1; i++) {
+
+				temp = temp.next;
+
+			}
+			node.next = temp.next;
+			temp.next = node;
+			size++;
+
+		}
+	}
+
+	public int removefirst() {
+		if (size == 0) {
+			return -1;
+		}
+
+		int ret = head.data;
+		head = head.next;
+		size--;
+
+		if (size == 0) {
+			head = tail = null;
+
+		}
+
+		return ret;
+
+	}
+
+	public int removelast() {
+		if (size == 0) {
+			return -1;
+		} else if (size == 1) {
+			int a = head.data;
+			head = tail = null;
+			size--;
+			return a;
+		} else {
+			Node temp = head;
+			Node ret = tail;
+			for (int i = 0; i < size - 2; i++) {
+
+				temp = temp.next;
+
+			}
+			temp.next = null;
+			tail = temp;
+			size--;
+
+			return ret.data;
+
+		}
+
+	}
+
+	public int removeat(int idx) {
+		if (idx < 0 | idx >= size) {
+			return -1;
+		} else if (idx == 0) {
+			return removefirst();
+		} else if (idx == size - 1) {
+			return removelast();
+		} else {
+			Node temp = head;
+			for (int i = 0; i < idx - 1; i++) {
+				temp = temp.next;
+
+			}
+			Node n = temp;
+
+			temp = temp.next;
+			n.next = temp.next;
+			size--;
+			return temp.data;
+		}
+
+	}
+
+	public int size() {
+
+		return this.size;
+	}
+
+	public void display() {
+
+		for (Node node = head; node != null; node = node.next) {
+
+			System.out.print(node.data + "->");
+		}
+		System.out.println();
+	}
+
+	public boolean isEmpty() {
+
+		return size == 0;
+
+	}
+
+	public void reverseDI() {
+
+		int left = 0;
+		int right = size - 1;
+
+		while (left < right) {
+			Node first = getNodeAt(left);
+			Node last = getNodeAt(right);
+
+			int temp = first.data;
+			first.data = last.data;
+			last.data = temp;
+			left++;
+			right--;
+
+		}
+
+	}
+
+	public void reversePI() {
+		if (size == 1) {
+			return;
+		}
+		Node a = head;
+		Node b = a.next;
+		Node c = b.next;
+		while (b != null) {
+			b.next = a;
+			a = b;
+			b = c;
+			if (c != null) {
+				c = c.next;
+			}
+
+		}
+
+		Node temp = head;
+		head = tail;
+
+		tail = temp;
+		tail.next = null;
+
+	}
+
+	public boolean Ispallindrome() {
+		Ispallindromeleft = head;
+		return Ispallindrome(head);
+
+	}
+
+	private boolean Ispallindrome(Node right) {
+		if (right == null) {
+			return true;
+		}
+		// right=right.next;
+		boolean recres = Ispallindrome(right.next);
+		if (recres == true) {
+			if (right.data == Ispallindromeleft.data) {
+				Ispallindromeleft = Ispallindromeleft.next;
+				return true;
+			} else {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
+
+	}
+
+	public void fold() {
+		foldLeft = head;
+		fold(head, 0);
+
+	}
+
+	private void fold(Node right, int floor) {
+		if (right == null) {
+			return;
+		}
+
+		fold(right.next, floor + 1);
+		Node temp;
+		if (floor >= size / 2) {
+			temp = foldLeft.next;
+			foldLeft.next = right;
+			right.next = temp;
+			foldLeft = temp;
+
+		}
+		if (floor == size / 2) {
+			tail = right;
+			tail.next = null;
+
+		}
+
+	}
+
+	public int mid() {
+
+		Node slow = head;
+		Node fast = head;
+		while (fast.next != null && fast.next.next != null) {
+
+			slow = slow.next;
+			fast = fast.next.next;
+
+		}
+
+		return slow.data;
+	}
+
+	public int kelementfromlast(int k) {
+
+		Node fast = head;
+		Node slow = head;
+		int i = 0;
+		while (i < k - 1) {
+			fast = fast.next;
+			i++;
+
+		}
+
+		while (fast.next != null) {
+
+			slow = slow.next;
+			fast = fast.next;
+
+		}
+
+		return slow.data;
+
+	}
+
+	public static LinkedListC mergeTwosortedLL(LinkedListC l1, LinkedListC l2) {
+
+		LinkedListC ll = new LinkedListC();
+		Node ll1 = l1.head;
+		Node ll2 = l2.head;
+		while (ll1 != null && ll2 != null) {
+
+			if (ll1.data > ll2.data) {
+
+				ll.addlast(ll2.data);
+				ll2 = ll2.next;
+			} else {
+				ll.addlast(ll1.data);
+				ll1 = ll1.next;
+			}
+
+		}
+
+		if (ll1 != null) {
+
+			while (ll1 != null) {
+
+				ll.addlast(ll1.data);
+				ll1 = ll1.next;
+
+			}
+
+		} else {
+
+			while (ll2 != null) {
+
+				ll.addlast(ll2.data);
+				ll2 = ll2.next;
+
+			}
+
+		}
+		return ll;
+	}
+
+	public static LinkedListC mergesort(LinkedListC list) {
+		if (list.head == list.tail) {
+
+			LinkedListC nl = new LinkedListC();
+			nl.addlast(list.head.data);
+
+			return nl;
+		}
+
+		Node midNext = list.midnode().next;
+
+		LinkedListC ll1 = new LinkedListC();
+		ll1.head = list.head;
+		ll1.tail = list.midnode();
+		ll1.tail.next = null;
+		LinkedListC ll2 = new LinkedListC();
+		ll2.head = midNext;
+		ll2.tail = list.tail;
+
+		LinkedListC leftLL = mergesort(ll1);
+		LinkedListC rightLL = mergesort(ll2);
+
+		// restore
+		ll1.tail.next = midNext;
+
+		return mergeTwosortedLL(leftLL, rightLL);
+
+	}
+
+	public Node midnode() {
+
+		Node slow = head;
+		Node fast = head;
+		while (fast.next != null && fast.next.next != null) {
+
+			slow = slow.next;
+			fast = fast.next.next;
+
+		}
+
+		return slow;
+	}
+
+	public Node removeFirstNode() {
+		if (size == 0) {
+			return null;
+		}
+
+		// int ret = head.data;
+		Node node = head;
+		head = head.next;
+		node.next = null;
+		size--;
+
+		if (size == 0) {
+			head = tail = null;
+
+		}
+
+		return node;
+
+	}
+
+	public void addFirstNode(Node node) {
+		// Node node = new Node();
+		// node.data = data;
+		if (this.size() == 0) {
+			head = tail = node;
+
+		} else {
+
+			node.next = head;
+			head = node;
+		}
+		size++;
+	}
+
+	public void kthreverse(int k) {
+
+		LinkedListC prev = new LinkedListC();
+		LinkedListC curr = null;
+
+		while (this.size != 0) {
+
+			for (int i = 0; i < k; i++) {
+
+				prev.addFirstNode(this.removeFirstNode());
+			}
+			if (curr == null) {
+				curr = prev;
+			} else {
+				curr.tail.next = prev.head;
+				curr.tail = prev.tail;
+				curr.size = curr.size + prev.size;
+
+			}
+			prev = new LinkedListC();
+
+		}
+		this.head = curr.head;
+		this.tail = curr.tail;
+		this.size = curr.size;
+
+	}
+
+	public void removedup() {
+
+		LinkedListC curr = new LinkedListC();
+		int data = this.head.data;
+		curr.addlast(data);
+		this.removelast();
+		while (this.size() != 0) {
+
+			if (data < this.head.data) {
+				curr.addlast(this.head.data);
+				data = this.head.data;
+			}
+			this.removefirst();
+
+		}
+		this.head = curr.head;
+		this.tail = curr.tail;
+		this.size = curr.size;
+
+	}
+
+	public void oddeven() {
+
+		LinkedListC odd = new LinkedListC();
+		LinkedListC even = new LinkedListC();
+
+		while (this.size != 0) {
+
+			if (this.head.data % 2 == 0) {
+
+				even.addlast(this.head.data);
+
+			} else {
+				odd.addlast(this.head.data);
+			}
+
+			this.removefirst();
+
+		}
+
+		if (odd.head == null) {
+			this.head = even.head;
+			this.tail = even.tail;
+			this.size = even.size;
+
+		} else if (even.head == null) {
+			this.head = odd.head;
+			this.tail = odd.tail;
+			this.size = odd.size;
+		} else {
+			odd.tail.next = even.head;
+			this.head = odd.head;
+			this.tail = even.tail;
+			this.size = odd.size + even.size;
+
+		}
+
+	}
+
+	public static void mergepoint(LinkedListC l1, LinkedListC l2) {
+
+	}
+
+	public void reversedatarecur() {
+
+		recurPointer = head;
+		reversedatarecur(this.head, 0);
+
+	}
+
+	public void reversedatarecur(Node node, int floor) {
+
+		if (node == null) {
+
+			return;
+		}
+
+		reversedatarecur(node.next, floor + 1);
+		if (floor >= size / 2) {
+			int temp = node.data;
+			node.data = recurPointer.data;
+			recurPointer.data = temp;
+			recurPointer = recurPointer.next;
+
+		}
+
+	}
+
+}

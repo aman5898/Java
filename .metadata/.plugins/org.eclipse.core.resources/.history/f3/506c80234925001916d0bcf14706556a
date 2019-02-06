@@ -1,0 +1,67 @@
+package greedy;
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class coinPile
+ {
+	public static void main (String[] args)
+	 {
+	     Scanner scn=new Scanner(System.in);
+	     int t=scn.nextInt();
+	     while(t-->0){
+	          int n=scn.nextInt();
+    	      int k=scn.nextInt();
+    	      int[] arr=new int[n];
+    	      for(int i=0;i<arr.length;i++){
+    	          arr[i]=scn.nextInt();
+    	      }
+    	      int x=minRemoves(arr,k);
+    	      System.out.println(x);
+	     }
+	      
+	 }
+	 
+	 
+	 public static int minRemoves(int []arr,int k){
+	     int ans=0;
+	     while(true){
+	         int maxIdx=max(arr);
+	         int minIdx=min(arr);
+	         if(arr[maxIdx]-arr[minIdx]<=k){
+	             return ans;
+	         }else{
+	             arr[maxIdx]-=(arr[maxIdx]-arr[minIdx]);
+	             ans++;
+	         }
+	     }
+	 }
+	 
+	 public static int max(int[] arr){
+	     int ans=Integer.MIN_VALUE;
+	     int maxIdx=-1;
+	     for(int i=0;i<arr.length;i++){
+	         if(arr[i]>ans){
+	             ans=arr[i];
+	             maxIdx=i;
+	         }
+	     }
+	     
+	     
+	     return maxIdx;
+	 }
+	 
+	 public static int min(int[] arr){
+	     int ans=Integer.MAX_VALUE;
+	     int minIdx=-1;
+	     for(int i=0;i<arr.length;i++){
+	         if(arr[i]<ans){
+	             ans=arr[i];
+	             minIdx=i;
+	         }
+	     }
+	     
+	     
+	     return minIdx;
+	 }
+}

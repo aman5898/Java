@@ -1,0 +1,113 @@
+package hashmap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Hashmap {
+
+	public static void main(String[] args) {
+//		highestFrequencyCharacter("aabrabbbbbb");
+//		int[] one = { 5, 1, 3, 1, 2, 2, 1 };
+//		int[] two = { 2, 2, 4, 1, 1, 5, 2 };
+//		getCommonElements2(one, two);
+		int[] arr = { 2, 12, 9, 16, 10, 5, 3, 20, 25, 11, 1, 8, 6 };
+		longestSequence(arr);
+	}
+
+	public static void highestFrequencyCharacter(String word) {
+		HashMap<Character, Integer> map = new HashMap<>();
+		for (int i = 0; i < word.length(); i++) {
+			char ch = word.charAt(i);
+			if (map.containsKey(ch) == true) {
+				map.put(ch, map.get(ch) + 1);
+			} else {
+				map.put(ch, 1);
+			}
+		}
+
+		ArrayList<Character> keyset = new ArrayList<>(map.keySet());
+		int max = Integer.MIN_VALUE;
+		char ch = '\0';
+		for (int i = 0; i < keyset.size(); i++) {
+			if (map.get(keyset.get(i)) > max) {
+				max = map.get(keyset.get(i));
+				ch = keyset.get(i);
+			}
+		}
+		System.out.println(ch);
+	}
+
+	public static void getCommonElements1(int[] one, int[] two) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for (int val : one) {
+			if (map.containsKey(val)) {
+				map.put(val, map.get(val) + 1);
+			} else {
+				map.put(val, 1);
+			}
+		}
+
+		for (int val : two) {
+			if (map.containsKey(val)) {
+				System.out.print(val + " ");
+				map.remove(val);
+			}
+		}
+	}
+
+	public static void getCommonElements2(int[] one, int[] two) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for (int val : one) {
+			if (map.containsKey(val)) {
+				map.put(val, map.get(val) + 1);
+			} else {
+				map.put(val, 1);
+			}
+		}
+
+		for (int val : two) {
+			if (map.containsKey(val)) {
+				System.out.print(val + " ");
+				map.put(val, map.get(val) - 1);
+
+			}
+
+			if (map.containsKey(val)) {
+				if (map.get(val) <= 0) {
+					map.remove(val);
+				}
+
+			}
+		}
+	}
+
+	public static void longestSequence(int[] arr) {
+		HashMap<Integer, Boolean> map = new HashMap<>();
+		for (int val : arr) {
+			map.put(val, false);
+		}
+
+		for (int val : arr) {
+			if (map.containsKey(val - 1) == false) {
+				map.put(val, true);
+			}
+		}
+		int sidx = -1;
+		int maxcouont = 0;
+		for (int val : arr) {
+			int count = 1;
+			if (map.get(val) == true) {
+				while (map.containsKey(val + count) == true) {
+					count++;
+				}
+				count--;
+				if (count > maxcouont) {
+					maxcouont = count;
+					sidx = val;
+				}
+			}
+		}
+		System.out.println(sidx + " " + maxcouont);
+	}
+
+}

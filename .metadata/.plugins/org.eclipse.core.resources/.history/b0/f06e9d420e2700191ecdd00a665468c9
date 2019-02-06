@@ -1,0 +1,40 @@
+package arrays;
+
+public class RelativeSorting {
+	public static void main(String[] args) {
+		int[] arr= {5,4,3,2,1};
+		quickSort(arr, 0, arr.length-1);
+		for(int val:arr) {
+			System.out.println(val);
+		}
+	}
+
+	public static void quickSort(int[] arr, int lo, int hi) {
+		if (lo < hi) {
+			int pIdx = partition(arr, lo, hi);
+			quickSort(arr, lo, pIdx - 1);
+			quickSort(arr, pIdx + 1, hi);
+		}
+	}
+
+	private static int partition(int[] arr, int lo, int hi) {
+		int i = lo - 1;
+		int pivot = arr[hi];
+		for (int j = lo; j <= hi; j++) {
+			if (arr[j] < pivot) {
+				i++;
+				swap(arr, i, j);
+			}
+		}
+
+		i++;
+		swap(arr, i, hi);
+		return i;
+	}
+
+	private static void swap(int[] arr, int i, int j) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+}

@@ -1,0 +1,13 @@
+package binaryTree;
+
+public class clinet {
+
+	public static void main(String[] args) {
+		int[] pre = { 50, 25, 12, 37, 75, 62, 87 };
+		int[] in = { 12, 25, 37, 50, 62, 75, 87 };
+		IterativePostOrderUsingTwoStacks bt = new IterativePostOrderUsingTwoStacks(pre, in);
+		bt.display();
+		bt.postTraverseUsingStack();
+	}
+
+}

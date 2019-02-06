@@ -1,0 +1,39 @@
+package bst;
+
+public class client {
+
+	public static void main(String[] args) {
+		int[] sa = { 12, 25, 37, 50, 62, 75, 87 };
+		AVL bt = new AVL(sa);
+		bt.display();
+		bt.display();
+		bt.add(10);
+		bt.add(20);
+		bt.add(30);
+		bt.add(40);
+		bt.add(60);
+		bt.add(70);
+		bt.add(80);
+		bt.add(90);
+		System.out.println("aman");
+		bt.display();
+		bt.remove(30);
+		bt.remove(40);
+		bt.remove(37);
+		bt.remove(10);
+		System.out.println("aman");
+		bt.display();
+		
+		
+//		System.out.println(bt.find(500));
+//		bt.pir(15,50);
+//		bt.replaceWithSumOfLargerNodes();
+//		bt.display();
+//		bt.add(55);
+//		bt.display();
+//		bt.remove(40);
+//		bt.display();
+//		System.out.println(bt.lowestCommonAncestor(50,10));
+	}
+
+}

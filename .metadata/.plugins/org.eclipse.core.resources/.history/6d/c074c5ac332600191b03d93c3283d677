@@ -1,0 +1,29 @@
+package recursion;
+
+public class waterOverflow {
+
+	public static void main(String[] args) {
+		double x = WaterOverflow(10, 1, 4);
+		System.out.println(x);
+	}
+
+	public static double WaterOverflow(double k, int level, int i) {
+		if (level == i) {
+			if (k >= 1) {
+				return 1;
+			} else {
+				return k;
+			}
+		}
+		
+//		System.out.println(level+" "+k);
+		double restWater = (k - 1) / 2;
+		if (restWater < 1) {
+			return 0;
+		}
+		
+		
+		return WaterOverflow(restWater, level + 1, i);
+	}
+
+}

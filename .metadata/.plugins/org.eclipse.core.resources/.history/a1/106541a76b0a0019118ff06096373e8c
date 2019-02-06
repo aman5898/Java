@@ -1,0 +1,14 @@
+package binaryTree;
+
+public class clinet {
+
+	public static void main(String[] args) {
+		int[] pre= {5,-10,9,8,3,-4,7};
+		int[] in= {9,-10,8,5,-4,3,7};
+		CountSubtreesThatSumUpToGivenValue bt=new CountSubtreesThatSumUpToGivenValue(pre,in);
+		bt.display();
+		
+		System.out.println(bt.countSubtreesWithSumX(3));
+	}
+
+}

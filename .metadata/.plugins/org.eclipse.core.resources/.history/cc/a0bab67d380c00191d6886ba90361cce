@@ -1,0 +1,35 @@
+package hashmap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Hashmap {
+
+	public static void main(String[] args) {
+		highestFrequencyCharacter("aabrabbbbbb");
+	}
+
+	public static void highestFrequencyCharacter(String word) {
+		HashMap<Character, Integer> map = new HashMap<>();
+		for (int i = 0; i < word.length(); i++) {
+			char ch = word.charAt(i);
+			if (map.containsKey(ch) == true) {
+				map.put(ch, map.get(ch) + 1);
+			} else {
+				map.put(ch, 1);
+			}
+		}
+
+		ArrayList<Character> keyset = new ArrayList<>(map.keySet());
+		int max = Integer.MIN_VALUE;
+		char ch = '\0';
+		for (int i = 0; i < keyset.size(); i++) {
+			if (map.get(keyset.get(i)) > max) {
+				max = map.get(keyset.get(i));
+				ch = keyset.get(i);
+			}
+		}
+		System.out.println(ch);
+	}
+
+}

@@ -1,0 +1,124 @@
+package ownHasmap;
+
+import java.util.ArrayList;
+
+public class HashMap<K, V> {
+
+	private class HMnode {
+		K key;
+		V value;
+
+		public HMnode(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+
+	private LinkedList<HMnode>[] buckets;
+	private int size = 0;
+
+	@SuppressWarnings("unchecked")
+	public HashMap() {
+		buckets = new LinkedList[4];
+		for (int i = 0; i < buckets.length; i++) {
+			buckets[i] = new LinkedList<>();
+		}
+	}
+
+	public V get(K key) {
+		int bi = hashFunction(key);
+		HMnode hmnode = findWithinBucket(bi, key);
+		if (hmnode == null) {
+			return null;
+		} else {
+			return hmnode.value;
+		}
+	}
+
+	public void put(K key, V value) {
+		int bi = hashFunction(key);
+		HMnode hmnode = findWithinBucket(bi, key);
+		if (hmnode == null) {
+			hmnode = new HMnode(key, value);
+			buckets[bi].addlast(hmnode);
+			this.size++;
+		} else {
+			hmnode.value = value;
+		}
+	}
+
+	public boolean containsKey(K key) {
+		int bi = hashFunction(key);
+		HMnode hmnode = findWithinBucket(bi, key);
+		if (hmnode == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public V remove(K key) {
+		int bi = hashFunction(key);
+		HMnode hmnode = findWithinBucket(bi, key);
+		if (hmnode == null) {
+			return null;
+		} else {
+			removeFromBucket(bi, key);
+			this.size--;
+			return hmnode.value;
+		}
+	}
+
+	private void removeFromBucket(int bi, K key) {
+		for (int di = 0; di < buckets[bi].size; di++) {
+			HMnode hmnode = buckets[bi].getat(di);
+			if (hmnode.key.equals(key)) {
+				buckets[bi].removeat(di);
+				return;
+			}
+		}
+	}
+
+	public ArrayList<K> keyset() {
+		ArrayList<K> lists = new ArrayList<>();
+		for (int i = 0; i < buckets.length; i++) {
+			for (int di = 0; di < buckets[i].size; di++) {
+				lists.add(buckets[i].getat(di).key);
+			}
+		}
+		return lists;
+	}
+
+	public int size() {
+		return this.size;
+	}
+
+	public boolean isEmpty() {
+		return this.size == 0;
+	}
+
+	public void display() {
+		for (int i = 0; i < buckets.length; i++) {
+			for (int di = 0; di < buckets[i].size; di++) {
+				HMnode hmnode=buckets[i].getat(di);
+				System.out.println(hmnode.key+"="+hmnode.value+", ");
+			}
+		}
+	}
+
+	private HashMap<K, V>.HMnode findWithinBucket(int bi, K key) {
+		for (int di = 0; di < buckets[bi].size(); di++) {
+			HMnode hmnode = buckets[bi].getat(di);
+			if (hmnode.key.equals(key)) {
+				return hmnode;
+			}
+		}
+		return null;
+	}
+
+	private int hashFunction(K key) {
+		int hc = key.hashCode();
+		return Math.abs(hc) % buckets.length;
+	}
+
+}

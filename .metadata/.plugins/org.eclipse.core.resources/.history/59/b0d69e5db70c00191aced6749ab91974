@@ -1,0 +1,75 @@
+package hashmap;
+
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class PQClient {
+
+	public static void main(String[] args) {
+//		int[] arr = { 4, 5, 6, 7, 8, 9, 1, 2, 3 };
+//		printKlargestBetter(arr, 3);
+//		int[] arr = { 30, 10, 40, 20, 50, 70, 80, 60, 110, 90, 100, 120 };
+//		almostSorted(arr, 2);
+		MedianPQ mp=new MedianPQ();
+		mp.add(40);
+		mp.add(50);
+		mp.add(30);
+		mp.add(60);
+		mp.add(70);
+		
+		
+		System.out.println(mp.peek());
+	}
+
+	// add and remove of priority queue is logn and peek os o1
+
+	// space on time (n+k)logn
+	public static void printKlargest(int[] arr, int k) {
+		PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+		for (int val : arr) {
+			pq.add(val);
+		}
+
+		for (int i = 0; i < k; i++) {
+			System.out.println(pq.remove());
+		}
+	}
+
+	// space ok time nlogk
+	public static void printKlargestBetter(int[] arr, int k) {
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		for (int i = 0; i < k; i++) {
+			pq.add(arr[i]);
+		}
+		for (int i = k; i < arr.length; i++) {
+			int x = pq.peek();
+			if (arr[i] > x) {
+				pq.remove();
+				pq.add(arr[i]);
+			}
+		}
+		System.out.println(pq);
+	}
+
+	public static void almostSorted(int[] arr, int k) {
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		for (int i = 0; i < arr.length; i++) {
+			if (i < k + 1) {
+				pq.add(arr[i]);
+			} else {
+				arr[i - k - 1] = pq.remove();
+				pq.add(arr[i]);
+			}
+
+		}
+
+		for (int i = arr.length - k - 1; i < arr.length; i++) {
+			arr[i] = pq.remove();
+		}
+
+		for (int val : arr) {
+			System.out.println(val);
+		}
+	}
+
+}

@@ -1,0 +1,78 @@
+package arrays;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class RelativeSorting {
+	private static HashMap<Integer, Integer> hp;
+
+	public static void main(String[] args) {
+//		int[] arr = {2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8};
+//		int[] arr2 = { 2, 1, 8, 3 };
+//		hp = new HashMap<>();
+//		for (int k = 0; k < arr2.length; k++) {
+//			hp.put(arr2[k], k);
+//		}
+//		quickSort(arr, 0, arr.length - 1);
+//		for (int val : arr) {
+//			System.out.println(val);
+//		}
+		Scanner scn=new Scanner(System.in);
+	     int t=scn.nextInt();
+	     while(t-->0){
+	         String str=scn.nextLine();
+	         System.out.println(reverse(str));
+	     }
+	}
+	
+	public static String reverse(String str){
+	     for(int i=0;i<str.length();i++){
+	         if(str.charAt(i)=='.'){
+	            return  reverse(str.substring(i+1,str.length()))+"."+str.substring(0,i);
+	         }
+	     }
+	     
+	     return str;
+	 }
+
+	public static void quickSort(int[] arr, int lo, int hi) {
+		if (lo < hi) {
+			int pIdx = partition(arr, lo, hi);
+			quickSort(arr, lo, pIdx - 1);
+			quickSort(arr, pIdx + 1, hi);
+		}
+	}
+
+	private static int partition(int[] arr, int lo, int hi) {
+		int i = lo - 1;
+		int pivot = arr[hi];
+		for (int j = lo; j <= hi; j++) {
+			if (isLp(arr, hi, j)) { // replaced pivot -> arr[hi]
+				i++;
+				swap(arr, i, j);
+			}
+		}
+
+		i++;
+		swap(arr, i, hi);
+		return i;
+	}
+
+	public static boolean isLp(int[] arr, int i, int j) {
+		if (hp.containsKey(arr[i]) == false && hp.containsKey(arr[j]) == true) {
+			return true;
+		} else if (hp.containsKey(arr[i]) == true && hp.containsKey(arr[j]) == false) {
+			return false;
+		} else if (hp.containsKey(arr[i]) == true && hp.containsKey(arr[j]) == true) {
+			return hp.get(arr[i]) - hp.get(arr[j]) > 0;
+		} else {
+			return arr[i] - arr[j] > 0;
+		}
+	}
+
+	private static void swap(int[] arr, int i, int j) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+}

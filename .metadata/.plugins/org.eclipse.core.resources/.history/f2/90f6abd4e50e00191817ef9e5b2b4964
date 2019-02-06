@@ -1,0 +1,965 @@
+package dp_19_12_18;
+
+import java.util.Stack;
+
+public class Prac {
+
+	public static int climbDown(int n) {
+		if (n < 0) {
+			return 0;
+		}
+		if (n == 1 || n == 0) {
+			return 1;
+		}
+
+		int count = 0;
+
+		for (int i = 1; i <= 3; i++) {
+			count += climbDown(n - i);
+		}
+
+		return count;
+	}
+
+	public static int climbDownM(int n, int[] qb) {
+		if (n < 0) {
+			return 0;
+		}
+		if (n == 1 || n == 0) {
+			return 1;
+		}
+		if (qb[n] != 0) {
+			return qb[n];
+		}
+
+		int count = 0;
+		for (int i = 1; i <= 3; i++) {
+			count += climbDownM(n - i, qb);
+		}
+		qb[n] = count;
+		return count;
+	}
+
+	public static int climbDownT(int n) {
+		int[] qb = new int[n + 1];
+		qb[0] = 1;
+		qb[1] = 1;
+		qb[2] = 2;
+		for (int i = 3; i <= n; i++) {
+			qb[i] = qb[i - 1] + qb[i - 2] + qb[i - 3];
+		}
+
+		return qb[n];
+	}
+
+	static int paths = 0;
+
+	public static void climbDownStairs(int s, String asf) {
+		if (s < 0) {
+			return;
+		}
+		if (s == 0) {
+			paths++;
+			return;
+		}
+
+		climbDownStairs(s - 1, asf + "1");
+		climbDownStairs(s - 2, asf + "2");
+		climbDownStairs(s - 3, asf + "3");
+	}
+
+	public static int countMazePath(int dr, int dc) {
+		int[][] arr = new int[dr + 1][dc + 1];
+
+		arr[dr][dc] = 1;
+		for (int i = dr; i >= 0; i--) {
+			for (int j = dc; j >= 0; j--) {
+				if (i < dr) {
+					arr[i][j] += arr[i + 1][j];
+				}
+				if (j < dc) {
+					arr[i][j] += arr[i][j + 1];
+				}
+			}
+		}
+		return arr[0][0];
+	}
+
+	public static int countMazePathMultipleSteps(int dr, int dc) {
+		int[][] arr = new int[dr + 1][dc + 1];
+
+		arr[dr][dc] = 1;
+		for (int i = dr; i >= 0; i--) {
+			for (int j = dc; j >= 0; j--) {
+				// for (int k = 1; k <= dr+1; k++) {
+				// if (i+k <= dr) {
+				// arr[i][j] += arr[i + k][j];
+				// }
+				// }
+				// for (int k = 1; k <= dc+1; k++) {
+				// if (j+k <= dc) {
+				// arr[i][j] += arr[i][j + k];
+				// }
+				// }
+				for (int k = 1; k <= dr + 1; k++) {
+					if (i + k <= dr) {
+						arr[i][j] += arr[i + k][j];
+					}
+
+					if (j + k <= dc) {
+						arr[i][j] += arr[i][j + k];
+					}
+
+				}
+			}
+		}
+		return arr[0][0];
+	}
+
+	public static int countMazePath2(int dr, int dc) {
+		int[][] arr = new int[dr + 1][dc + 1];
+
+		arr[0][0] = 1;
+		for (int i = 0; i <= dr; i++) {
+			for (int j = 0; j <= dc; j++) {
+				if (i > 0) {
+					arr[i][j] += arr[i - 1][j];
+				}
+				if (j > 0) {
+					arr[i][j] += arr[i][j - 1];
+				}
+			}
+		}
+		return arr[dr][dr];
+	}
+
+	public static int minCostPath(int[][] costs) {
+		int end = costs.length - 1;
+		int[][] path = new int[costs.length][costs.length];
+		path[end][end] = costs[end][end];
+
+		for (int i = end; i >= 0; i--) {
+			for (int j = end; j >= 0; j--) {
+				if (i == end && j == end) {
+					continue;
+				} else if (i == end) {
+					path[i][j] = costs[i][j] + path[i][j + 1];
+				} else if (j == end) {
+					path[i][j] = costs[i][j] + path[i + 1][j];
+				} else
+					path[i][j] = costs[i][j]
+							+ Math.min(path[i + 1][j], path[i][j + 1]);
+			}
+		}
+
+		minCostPathPrint(0, 0, path, "");
+
+		return path[0][0];
+	}
+
+	public static void minCostPathPrint(int row, int col, int[][] costs,
+			String asf) {
+		if (row == costs.length - 1 && col == costs.length - 1) {
+			System.out.println(asf);
+			return;
+		}
+
+		if (row >= costs.length) {
+			return;
+		}
+		if (col >= costs.length) {
+			return;
+		}
+
+		if (row == costs.length - 1) {
+			minCostPathPrint(row, col + 1, costs, asf + "H");
+		} else if (col == costs.length - 1) {
+			minCostPathPrint(row + 1, col, costs, asf + "V");
+		} else
+
+		if (costs[row + 1][col] > costs[row][col + 1]) {
+			minCostPathPrint(row, col + 1, costs, asf + "H");
+		} else if (costs[row + 1][col] < costs[row][col + 1]) {
+			minCostPathPrint(row + 1, col, costs, asf + "V");
+		} else {
+			minCostPathPrint(row + 1, col, costs, asf + "V");
+			minCostPathPrint(row, col + 1, costs, asf + "H");
+		}
+	}
+
+	public static int goldMine(int[][] gold) {
+		int rowMax = gold.length - 1;
+		int colMax = gold[0].length - 1;
+		int[][] costs = new int[rowMax + 1][colMax + 1];
+
+		for (int i = 0; i <= rowMax; i++) {
+			costs[i][colMax] = gold[i][colMax];
+		}
+
+		for (int j = colMax - 1; j >= 0; j--) {
+			for (int i = 0; i <= rowMax; i++) {
+				if (i == 0) {
+					int max = Math.max(costs[i + 1][j + 1], costs[i][j + 1]);
+					costs[i][j] = gold[i][j] + max;
+				} else if (i == rowMax) {
+					int max = Math.max(costs[i - 1][j + 1], costs[i][j + 1]);
+					costs[i][j] = gold[i][j] + max;
+				} else {
+					int max = Math.max(costs[i + 1][j + 1],
+							Math.max(costs[i - 1][j + 1], costs[i][j + 1]));
+					costs[i][j] = gold[i][j] + max;
+				}
+			}
+		}
+		int ans = Integer.MIN_VALUE;
+		for (int i = 0; i <= rowMax; i++) {
+			if (costs[i][0] > ans) {
+				ans = costs[i][0];
+			}
+		}
+		return ans;
+	}
+
+	public static int minJumps(int[] arr) {
+		int[] jumps = new int[arr.length];
+
+		jumps[0] = 0;
+
+		for (int i = 1; i < jumps.length; i++) {
+			int min = Integer.MAX_VALUE;
+
+			for (int j = 0; j < i; j++) {
+				if (arr[j] >= i - j) {
+					min = Math.min(min, jumps[j] + 1);
+				}
+			}
+
+			jumps[i] = min;
+
+		}
+		return jumps[jumps.length - 1];
+	}
+
+	static int count = 0;
+
+	// needs correction
+	public static void printMinJumps(int[] jumps, int n, String asf) {
+		if (n == 0) {
+			System.out.println(asf);
+			count++;
+			return;
+		}
+		for (int i = n - 1; i >= 0; i--) {
+			if (jumps[i] == jumps[n] - 1) {
+				printMinJumps(jumps, i, asf + i);
+			}
+		}
+	}
+
+	public static int[] Lis(int[] arr) {
+		int[] res = new int[arr.length];
+		res[0] = 1;
+		for (int i = 1; i < res.length; i++) {
+			int max = Integer.MIN_VALUE;
+			for (int j = 0; j < i; j++) {
+				if (arr[j] < arr[i]) {
+					max = Math.max(res[j], max);
+				}
+			}
+			res[i] = max + 1;
+		}
+		int ans = Integer.MIN_VALUE;
+		for (int val : res) {
+			ans = Math.max(val, ans);
+		}
+		System.out.println(ans);
+		return res;
+	}
+
+	// public static int[] Lds(int[] arr){
+	// int[] res=new int[arr.length];
+	// res[0]=1;
+	// for(int i=1;i<res.length;i++){
+	// int max=Integer.MIN_VALUE;
+	// for(int j=i+1;j<res.length;j++){
+	// if(arr[j]>arr[i]){
+	// max=Math.max(res[j],max);
+	// }
+	//
+	// }
+	//
+	// res[i]=max+1;
+	// }
+	// int ans=Integer.MIN_VALUE;
+	// for(int val:res){
+	// ans=Math.max(val, ans);
+	// }
+	// return res;
+	// }
+	// bitonic (first increasing then decreasing) As a homework
+	static class pair {
+		String path;
+		int idx;
+
+		pair(String s, int i) {
+			this.path = s;
+			this.idx = i;
+		}
+	}
+
+	public static void printPathLis(int[] strg, int[] arr) {
+
+		int max = Integer.MIN_VALUE;
+		int maxIdx = Integer.MIN_VALUE;
+		for (int i = strg.length - 1; i >= 0; i--) {
+			if (strg[i] > max) {
+				max = arr[i];
+				maxIdx = i;
+			}
+		}
+
+		Stack<pair> st = new Stack<Prac.pair>();
+		st.push(new pair(arr[maxIdx] + "", maxIdx));
+
+		while (!st.empty()) {
+			pair p = st.pop();
+
+			if (strg[p.idx] == 1) {
+				System.out.println(p.path);
+				continue;
+			}
+			for (int i = p.idx - 1; i >= 0; i--) {
+				if (strg[i] == strg[p.idx] - 1 && arr[i] < arr[p.idx]) {
+					st.push(new pair(p.path + " " + arr[i], i));
+				}
+			}
+		}
+
+	}
+
+	public static int rodCutting(int[] rod) {
+		int[] strg = new int[rod.length];
+		strg[0] = rod[0];
+		strg[1] = rod[1];
+		for (int i = 2; i < rod.length; i++) {
+			int max = Integer.MIN_VALUE;
+			for (int j = 1, c = i - 1; j <= c; j++, c--) {
+				max = Math.max(max, strg[j] + strg[c]);
+			}
+			if (rod[i] > max)
+				max = rod[i];
+
+			strg[i] = max;
+		}
+
+		return strg[strg.length - 1];
+	}
+
+	public static boolean TargetSumSubset(int[] arr, int target) {
+		boolean[][] strg = new boolean[arr.length + 1][target + 1];
+
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[0].length; j++) {
+				if (i == 0 && j == 0) {
+					strg[i][j] = true;
+				} else if (i == 0) {
+					strg[i][j] = false;
+				} else if (j == 0) {
+					strg[i][j] = true;
+				} else {
+					if (strg[i - 1][j] == true) {
+						strg[i][j] = true;
+					} else {
+						if (j - arr[i - 1] >= 0) {
+							if (strg[i - 1][j - arr[i - 1]] == true) {
+								strg[i][j] = true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[0].length; j++) {
+				System.out.print(strg[i][j] + "\t");
+			}
+			System.out.println();
+		}
+
+		TargetSumSubsetPrint(strg.length - 1, strg[0].length - 1, strg, arr, "");
+
+		return strg[strg.length - 1][strg[0].length - 1];
+	}
+
+	private static void TargetSumSubsetPrint(int row, int col,
+			boolean[][] strg, int[] arr, String psf) {
+
+		if (row == 0 && col == 0) {
+			System.out.println(psf);
+			return;
+		}
+		if (strg[row - 1][col] == true) {
+			TargetSumSubsetPrint(row - 1, col, strg, arr, psf + "=");
+		}
+
+		if (col - arr[row - 1] >= 0) {
+
+			if (strg[row - 1][col - arr[row - 1]]) {
+				TargetSumSubsetPrint(row - 1, col - arr[row - 1], strg, arr,
+						psf + arr[row - 1] + "=");
+			}
+		}
+	}
+
+	public static void coinChangePermutation(int[] arr, int target) {
+		int[] strg = new int[target + 1];
+		strg[0] = 1;
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < arr.length; j++) {
+				if (i - arr[j] >= 0) {
+					strg[i] += strg[i - arr[j]];
+				}
+			}
+		}
+		System.out.println(strg[strg.length - 1]);
+	}
+
+	public static void coinChangeCombination(int[] arr, int target) {
+		int[] strg = new int[target + 1];
+		strg[0] = 1;
+		for (int j = 0; j < arr.length; j++) {
+			for (int i = 0; i < strg.length; i++) {
+				if (i - arr[j] >= 0) {
+					strg[i] += strg[i - arr[j]];
+				}
+			}
+		}
+		System.out.println(strg[strg.length - 1]);
+	}
+
+	public static void unboundedKnapsack(int[] wts, int[] price, int cap) {
+		int[] strg = new int[cap + 1];
+		strg[0] = 0;
+		for (int i = 1; i < strg.length; i++) {
+			int max = Integer.MIN_VALUE;
+			for (int j = 0; j < wts.length; j++) {
+				if (i - wts[j] >= 0) {
+					max = Math.max(max, strg[i - wts[j]] + price[j]);
+				}
+				strg[i] = max;
+			}
+		}
+		System.out.println(strg[strg.length - 1]);
+	}
+
+	public static void zeroOneKnapsack(int[] wts, int[] prices, int cap) {
+		int[][] strg = new int[wts.length + 1][cap + 1];
+
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[0].length; j++) {
+				if (i == 0) {
+					strg[i][j] = 0;
+				} else if (j == 0) {
+					strg[i][j] = 0;
+				} else {
+					if (j - wts[i - 1] >= 0) {
+						strg[i][j] = Math.max(strg[i - 1][j], strg[i - 1][j
+								- wts[i - 1]]
+								+ prices[i - 1]);
+					} else {
+						strg[i][j] = strg[i - 1][j];
+					}
+
+				}
+			}
+		}
+
+		System.out.println(strg[strg.length - 1][strg[0].length - 1]);
+
+		// printKnapsackPath(strg.length-1,strg[0].length-1,strg,wts,prices,"");
+
+	}
+	//yhan tak
+
+	public static void Lcs(String first, String second) {
+		int[][] strg = new int[first.length() + 1][second.length() + 1];
+
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[0].length; j++) {
+				if (i == 0) {
+					strg[i][j] = 0;
+				} else if (j == 0) {
+					strg[i][j] = 0;
+				} else {
+					if (first.charAt(i - 1) == second.charAt(j - 1)) {
+						strg[i][j] = strg[i - 1][j - 1] + 1;
+					} else {
+						strg[i][j] = Math.max(strg[i - 1][j], strg[i][j - 1]);
+					}
+				}
+			}
+		}
+
+		System.out.println(strg[strg.length - 1][strg[0].length - 1]);
+	}
+
+	public static int lcsMemoised(String s1, String s2, Integer[][] qb) {
+
+		if (s1.length() == 0 || s2.length() == 0) {
+			return 0;
+		}
+
+		if (qb[s1.length()][s2.length()] != null) {
+			return qb[s1.length()][s2.length()];
+		}
+		char ch1 = s1.charAt(0);
+		char ch2 = s2.charAt(0);
+
+		String ros1 = s1.substring(1);
+		String ros2 = s2.substring(1);
+		int ans;
+		if (ch1 == ch2) {
+			ans = 1 + lcsMemoised(ros1, ros2, qb);
+		} else {
+			ans = Math
+					.max(lcsMemoised(s1, ros2, qb), lcsMemoised(ros1, s2, qb));
+		}
+
+		qb[s1.length()][s2.length()] = ans;
+
+		return ans;
+	}
+
+	private static void printKnapsackPath(int row, int col, int[][] strg,
+			int[] wts, int[] prices, String psf) {
+		if (row == 0 || col == 0) {
+			System.out.println(psf);
+			return;
+		}
+		int max1 = strg[row - 1][col];
+		int max2 = strg[row - 1][col - wts[row - 1]] + prices[row - 1];
+		if (max1 > max2) {
+			printKnapsackPath(row - 1, col, strg, wts, prices, psf);
+		} else if (max2 > max1) {
+			printKnapsackPath(row - 1, col - wts[row - 1], strg, wts, prices,
+					psf + " " + wts[row - 1]);
+		} else {
+			printKnapsackPath(row - 1, col, strg, wts, prices, psf);
+			printKnapsackPath(row - 1, col - wts[row - 1], strg, wts, prices,
+					psf + " " + wts[row - 1]);
+		}
+	}
+
+	public static int editDist(String str1, String str2, int m, int n) {
+		if (m == 0) {
+			return n;
+		}
+		if (n == 0) {
+			return m;
+		}
+		if (str1.charAt(m - 1) == str2.charAt(n - 1)) {
+			return editDist(str1, str2, m - 1, n - 1);
+		} else {
+			return 1 + Math.min(
+					editDist(str1, str2, m, n - 1),
+					Math.min(editDist(str1, str2, m - 1, n - 1),
+							editDist(str1, str2, m - 1, n - 1)));
+		}
+	}
+
+	public static int editDistTabulation(String str1, String str2, int m, int n) {
+		int[][] strg = new int[m + 1][n + 1];
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg[0].length; j++) {
+				if (i == 0) {
+					strg[i][j] = j;
+				} else if (j == 0) {
+					strg[i][j] = i;
+				} else {
+					if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+						strg[i][j] = strg[i - 1][j - 1];
+					} else {
+						strg[i][j] = Math.min(strg[i][j - 1],
+								Math.min(strg[i - 1][j], strg[i - 1][j - 1])) + 1;
+					}
+				}
+			}
+		}
+
+		return strg[strg.length - 1][strg[0].length - 1];
+	}
+
+	public static int findLongestFromACell(int row, int col, int mat[][],
+			int dp[][]) {
+		if (row < 0 || row >= mat.length || col < 0 || col >= mat.length)
+			return 0;
+
+		if (dp[row][col] != -1) {
+			return dp[row][col];
+		}
+
+		if (row < mat.length - 1) {
+			if (mat[row][col] + 1 == mat[row + 1][col]) {
+				return dp[row][col] = 1 + findLongestFromACell(row + 1, col,
+						mat, dp);
+			}
+		}
+
+		if (row > 0) {
+			if (mat[row][col] + 1 == mat[row - 1][col]) {
+				return dp[row][col] = 1 + findLongestFromACell(row - 1, col,
+						mat, dp);
+			}
+		}
+
+		if (col < mat.length - 1) {
+			if (mat[row][col] + 1 == mat[row][col + 1]) {
+				return dp[row][col] = 1 + findLongestFromACell(row, col + 1,
+						mat, dp);
+			}
+		}
+
+		if (col > 0) {
+			if (mat[row][col] + 1 == mat[row][col - 1]) {
+				return dp[row][col] = 1 + findLongestFromACell(row, col - 1,
+						mat, dp);
+			}
+		}
+		dp[row][col] = 1;
+		return 1;
+	}
+
+	public static int finLongestOverAll(int mat[][]) {
+		// Initialize result
+		int result = 1;
+		int n = mat.length;
+		// Create a lookup table and fill all entries in it as -1
+		int[][] dp = new int[n][n];
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				dp[i][j] = -1;
+		// Compute longest path beginning from all cells
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (dp[i][j] == -1)
+					findLongestFromACell(i, j, mat, dp);
+
+				// Update result if needed
+				result = Math.max(result, dp[i][j]);
+			}
+		}
+
+		return result;
+	}
+
+	public static int LongPalinSubseqMemo(int sIdx, int lIdx, String str,
+			int[][] qb) {
+		if (sIdx == lIdx) {
+			return 1;
+		}
+		if (sIdx > lIdx) {
+			return 0;
+		}
+
+		if (qb[sIdx][lIdx] != 0) {
+			return qb[sIdx][lIdx];
+		}
+		char ch1 = str.charAt(sIdx);
+		char ch2 = str.charAt(lIdx);
+		if (ch1 == ch2) {
+			return qb[sIdx][lIdx] = LongPalinSubseqMemo(sIdx + 1, lIdx - 1,
+					str, qb) + 2;
+		} else {
+			return qb[sIdx][lIdx] = Math.max(
+					LongPalinSubseqMemo(sIdx, lIdx - 1, str, qb),
+					LongPalinSubseqMemo(sIdx + 1, lIdx, str, qb));
+		}
+	}
+
+	public static int LongPalinSubsequenceTabul(String str) {
+		int[][] strg = new int[str.length()][str.length()];
+		// i represent gap
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0) {
+					strg[i][j] = 1;
+				} else if (gap == 1) {
+					if (str.charAt(i) == str.charAt(j)) {
+						strg[i][j] = 2;
+					} else {
+						strg[i][j] = 1;
+					}
+				} else {
+					if (str.charAt(i) == str.charAt(j)) {
+						strg[i][j] = strg[i + 1][j - 1] + 2;
+					} else {
+						strg[i][j] = Math.max(strg[i + 1][j], strg[i][j - 1]);
+					}
+				}
+			}
+		}
+
+		return strg[0][strg.length - 1];
+	}
+
+	public static boolean[][] longestPalindromicSuubstring(String str) {
+		boolean[][] strg = new boolean[str.length()][str.length()];
+		// i represent gap
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0) {
+					strg[i][j] = true;
+				} else if (gap == 1) {
+					if (str.charAt(i) == str.charAt(j)) {
+						strg[i][j] = true;
+					}
+				} else {
+					if (str.charAt(i) == str.charAt(j)) {
+						strg[i][j] = strg[i + 1][j - 1];
+					} else {
+						strg[i][j] = false;
+					}
+				}
+			}
+		}
+
+		int counter = 0;
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (strg[i][j]) {
+					counter++;
+				}
+			}
+		}
+		System.out.println(counter);
+		outer: for (int gap = str.length() - 1; gap >= 0; gap--) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (strg[i][j]) {
+					System.out.println(str.substring(i, j + 1));
+					break outer;
+				}
+			}
+
+		}
+
+		return strg;
+	}
+
+	public static void minCutPalindrome(String str) {
+		int[][] strg = new int[str.length()][str.length()];
+		boolean[][] isPalin = longestPalindromicSuubstring(str);
+		for (int gap = 0; gap < str.length(); gap++) {
+			for (int i = 0, j = gap; j < str.length(); i++, j++) {
+				if (gap == 0) {
+					strg[i][j] = 0;
+				} else if (gap == 1) {
+					if (str.charAt(i) == str.charAt(j)) {
+						strg[i][j] = 0;
+					} else {
+						strg[i][j] = 1;
+					}
+				} else {
+					if (isPalin[i][j]) {
+						strg[i][j] = 0;
+					} else {
+						int min = Integer.MAX_VALUE;
+						// for(int k=j-gap, c = 1;k<j;k++,c++){
+						// min=Math.min(strg[i][k]+strg[i+c][j],min);
+						// }
+						for (int idash = i + 1, jdash = j - gap; jdash < j; idash++, jdash++) {
+							min = Math.min(min, strg[i][jdash] + strg[idash][j]
+									+ 1);
+						}
+						strg[i][j] = min;
+					}
+				}
+			}
+		}
+		System.out.println(strg[0][strg.length - 1]);
+		for (int i = 0; i < strg.length; i++) {
+			for (int j = 0; j < strg.length; j++) {
+				System.out.print(strg[i][j] + "\t");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void mcm(int[] dims) {
+		int[][] strg = new int[dims.length - 1][dims.length - 1];
+		for (int gap = 0; gap < strg.length; gap++) {
+			for (int i = 0, j = gap; j < strg.length; i++, j++) {
+				if (gap == 0) {
+					strg[i][j] = 0;
+				} else if (gap == 1) {
+					strg[i][j] = dims[i] * dims[i + 1] * dims[j + 1];
+				} else {
+					strg[i][j] = Integer.MAX_VALUE;
+					for (int idash = i + 1, jdash = j - gap; jdash < j; idash++, jdash++) {
+						strg[i][j] = Math.min(strg[i][j], strg[i][jdash]
+								+ strg[idash][j] + dims[i] * dims[jdash + 1]
+								* dims[j + 1]);
+					}
+				}
+			}
+		}
+		System.out.println(strg[0][strg.length - 1]);
+	}
+
+	public static int eggDrop(int e, int f, int[][] qb) {
+		if (f == 1) {
+			return 1;
+		}
+		if (e == 1) {
+			return f;
+		}
+
+		if (f == 0) {
+			return 0;
+		}
+
+		if (qb[e][f] != 0) {
+			return qb[e][f];
+		}
+
+		int min = Integer.MAX_VALUE;
+		for (int i = 1; i <= f; i++) {
+			min = Math.min(min,
+					Math.max(eggDrop(e - 1, i - 1, qb), eggDrop(e, f - i, qb)));
+		}
+
+		qb[e][f] = min + 1;
+
+		return min + 1;
+	}
+
+	static int max = Integer.MIN_VALUE;
+
+	public static void maxSumNoAdjacentElement(int vidx, int ans, boolean prev,
+			int[] arr) {
+		if (vidx == arr.length) {
+			max = Math.max(max, ans);
+			System.out.println(ans + " " + max);
+			return;
+		}
+		if (prev == true) {
+			maxSumNoAdjacentElement(vidx + 1, ans, false, arr);
+		} else {
+			maxSumNoAdjacentElement(vidx + 1, ans + arr[vidx], true, arr);
+			maxSumNoAdjacentElement(vidx + 1, ans, false, arr);
+		}
+	}
+	
+	public static void maxSumNoAdjacentElementsGreedy(int[] arr) {
+		// int[][] strg = new int[2][arr.length];
+		int exclude = 0;
+		int include = arr[0];
+
+		for (int j = 1; j < arr.length; j++) {
+			int temp = Math.max(include, exclude);
+			include = exclude + arr[j];
+			exclude = temp;
+		}
+		System.out.println(Math.max(include, exclude));
+	}
+
+	public static void egyptianFraction(int num, int den, String asf) {
+		if (num == 1) {
+			System.out.println(asf + num + "/" + den);
+			return;
+		}
+		int cutDen;
+		int cutNum;
+		// while(true){
+		// counter++;
+		// if(counter%num==0){
+		// cutDen=counter/num;
+		// cutNum=1;
+		// int newNum=num*cutDen-den;
+		// int newDen=cutDen*den;
+		// egyptianFraction(newNum, newDen, asf+cutNum+"/"+cutDen+" + ");
+		// return;
+		// }
+		// }
+
+		cutNum = 1;
+		cutDen = (int) Math.ceil((double) den / num);
+		int newNum = num * cutDen - den;
+		int newDen = cutDen * den;
+		egyptianFraction(newNum, newDen, asf + cutNum + "/" + cutDen + " + ");
+		return;
+	}
+
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// int x=climbDownT(10);
+		// System.out.println(x);
+		// System.out.println(countMazePath(3,3));
+		// int[][] arr = { { 1, 2, 0, 4, 2 }, { 9, 0, 4, 1, 7 },
+		// { 8, 4, 6, 2, 1 }, { 6, 5, 3, 3, 2 }, { 4, 9, 0, 8, 1 } };
+		// System.out.println(minCostPath(arr));
+		// int[][] mine = { { 3, 2, 5, 8, 9, 5 }, { 5, 6, 3, 7, 9, 8 },
+		// { 9, 1, 0, 5, 2, 1 }, { 2, 4, 7, 0, 9, 3 },
+		// { 3, 0, 7, 6, 8, 2 }, { 8, 4, 3, 2, 2, 5 } };
+		// System.out.println(goldMine(mine));
+		// int[] arrJump = { 3, 2, 0, 2, 3, 1, 0, 1, 2, 0, 1 };
+		// System.out.println(minJumps(arrJump));
+		// printMinJumps(minJumps(arrJump),arrJump.length-1,"");
+		// System.out.println(count);
+//		 int[] arr={10,22,9,33,21,50,41,60,80,1};
+		 // System.out.println();
+//		 int[] arr2=Lis(arr);
+//		 for(int val:arr2) {
+//			 System.out.println(val);
+//		 }
+//		 printPathLis(Lis(arr),arr);
+		// int[] arr={0,3,5,6,15,10,25,12,24};
+		// System.out.println(rodCutting(arr));
+		 int[] arr = { 2, 3, 1, 5, 6 };
+		 System.out.println(TargetSumSubset(arr, 10));
+		// int[] coins={2,3,5};
+		// coinChangePermutation(coins, 7);
+		// coinChangeCombination(coins,7);
+		// int[] wts = { 2, 5, 1, 3, 4 };
+		// int[] prices = { 15, 14, 10, 45, 30 };
+		// // unboundedKnapsack(wts,prices,7);
+		// zeroOneKnapsack(wts, prices, 7);
+		// int x=lcsMemoised("abcd", "aebd",new Integer[5][5]);
+		// System.out.println(x);
+		// String str1 = "sunday";
+		// String str2 = "saturday";
+		//
+		// // System.out.println( editDist( str1 , str2 , str1.length(),
+		// // str2.length()) );
+		// System.out.println(editDistTabulation(str1, str2, str1.length(),
+		// str2.length()));
+		// int mat[][] = { {1, 2, 9},
+		// {5, 3, 8},
+		// {4, 6, 7} };
+		// System.out.println("Length of the longest path is " +
+		// finLongestOverAll(mat));
+		// String str = "abkccbc";
+		// longestPalindromicSuubstring(str);
+		// int x=LongPalinSubseqMemo(0,str.length()-1,str,new int[7][7]);
+		// int x=LongPalinSubsequenceTabul(str);
+		// System.out.println(x);
+
+		// minCutPalindrome("abccbc");
+//		 mcm(new int[] { 10, 20, 30, 40, 50, 60 });
+//		 int eggs = 2;
+//		 int floors = 100;
+//		 int x = eggDrop(2, 100, new int[eggs + 1][floors + 1]);
+//		 System.out.println(x);
+
+//		int[] arr = { 5, 6, 10, 100, 10, 5 };
+////		maxSumNoAdjacentElement(0, 0, false, arr);
+//		maxSumNoAdjacentElementsGreedy(arr);
+		egyptianFraction(3, 7, "");
+		// System.out.println(Math.ceil(3.2));
+
+	}
+
+}

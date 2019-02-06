@@ -1,0 +1,102 @@
+package DynamicProgramming;
+
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+public class UglyNumber {
+
+	public static boolean isUglyNumber(int num) {
+		while (num % 2 == 0) {
+			num = num / 2;
+		}
+
+		while (num % 3 == 0) {
+			num = num / 3;
+		}
+
+		while (num % 5 == 0) {
+			num = num / 5;
+		}
+
+		return num == 1;
+	}
+
+	public static int nthUglyNumber(int n) {
+
+		int count = 0;
+		int num = 1;
+		while (count < n) {
+			if (isUglyNumber(num)) {
+				count++;
+			}
+			num++;
+		}
+		return --num;
+	}
+
+	 
+
+	public static void mergeKSortedLists(ArrayList<ArrayList<Integer>> lists) {
+		class pair implements Comparable<pair> {
+			int lIdx;
+			int dataIdx;
+			int value;
+
+			@Override
+			public int compareTo(pair o) {
+				return this.value - o.value;
+			}
+		}
+		PriorityQueue<pair> pq = new PriorityQueue<>();
+		for (int i = 0; i < lists.size(); i++) {
+			pair p = new pair();
+			p.dataIdx = 0;
+			p.lIdx = i;
+			p.value = lists.get(i).get(0);
+			pq.add(p);
+		}
+
+		while (pq.size() != 0) {
+			pair p = pq.remove();
+			System.out.println(p.value);
+			if (p.dataIdx <= lists.get(p.lIdx).size() - 2) {
+				pair p2 = new pair();
+				p2.dataIdx = p.dataIdx + 1;
+				p2.lIdx = p.lIdx;
+				p2.value = lists.get(p.lIdx).get(p2.dataIdx);
+				pq.add(p2);
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+//		System.out.println(nthUglyNumber(150));
+		ArrayList<Integer> arr1=new ArrayList<>();
+		arr1.add(10);
+		arr1.add(20);
+		arr1.add(30);
+		arr1.add(40);
+		ArrayList<Integer> arr2=new ArrayList<>();
+		arr2.add(22);
+		arr2.add(27);
+		arr2.add(28);
+		arr2.add(35);
+		arr2.add(55);
+		ArrayList<Integer> arr3=new ArrayList<>();
+		arr3.add(11);
+		arr3.add(32);
+		arr3.add(41);
+		ArrayList<Integer> arr4=new ArrayList<>();
+		arr4.add(5);
+		arr4.add(12);
+		arr4.add(26);
+		arr4.add(38);
+		ArrayList<ArrayList<Integer>> finalarr=new ArrayList<>();
+		finalarr.add(arr1);
+		finalarr.add(arr2);
+		finalarr.add(arr3);
+		finalarr.add(arr4);
+		mergeKSortedLists(finalarr);
+	}
+
+}

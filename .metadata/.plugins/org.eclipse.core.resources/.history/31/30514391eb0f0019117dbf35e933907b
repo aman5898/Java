@@ -1,0 +1,15 @@
+package linkedlist;
+
+public class client {
+
+	public static void main(String[] args) {
+		LinkedList ll=new LinkedList();
+		ll.addLast(20);
+		ll.display();
+		ll.addFirst(200);
+		ll.display();
+		ll.addat(1, 40);
+		ll.display();
+	}
+
+}

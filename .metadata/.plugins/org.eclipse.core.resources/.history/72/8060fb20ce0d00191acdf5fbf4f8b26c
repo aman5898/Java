@@ -1,0 +1,20 @@
+package heap;
+
+public class client {
+
+	public static void main(String[] args) {
+		Heap hp=new Heap();
+		hp.add(50);
+		hp.add(60);
+		hp.add(10);
+		hp.add(40);
+		hp.add(100);
+		hp.add(5);
+		hp.display();
+		
+		while(!hp.isEmpty()) {
+			System.out.println(hp.remove());
+		}
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;PracticeAtPepcoding/src/BinaryTree&apos; to &apos;binary_tree&apos;" description="Rename resource &apos;BinaryTree&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/BinaryTree" name="binary_tree" stamp="1545883023113" updateReferences="true"/>
+</session>

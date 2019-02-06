@@ -1,0 +1,20 @@
+package bst;
+
+public class client {
+
+	public static void main(String[] args) {
+		int[] sa= {10,20,30,40,50,60,70};
+		BST bt=new BST(sa);
+		bt.display();
+//		System.out.println(bt.find(500));
+//		bt.pir(15,50);
+//		bt.replaceWithSumOfLargerNodes();
+		System.out.println("aman");
+//		bt.display();
+//		bt.add(55);
+		bt.display();
+		bt.remove(60);
+		bt.display();
+	}
+
+}

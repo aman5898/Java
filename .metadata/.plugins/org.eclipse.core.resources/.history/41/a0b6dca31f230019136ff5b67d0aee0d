@@ -1,0 +1,82 @@
+package linkedList;
+
+class LinkedList { 
+
+	static Node head1, head2; 
+
+	static class Node { 
+
+		int data; 
+		Node next; 
+
+		Node(int d) { 
+			data = d; 
+			next = null; 
+		} 
+	} 
+
+	int intersectPoint(Node headA, Node headB)
+	{
+         int asize=0;
+         int bsize=0;
+         Node temp=headA;
+         while(temp!=null){
+             asize++;
+             temp=temp.next;
+         }
+         
+         
+         temp=headB;
+         while(temp!=null){
+             bsize++;
+             temp=temp.next;
+         }
+         
+         Node a=headA;
+         Node b=headB;
+         
+         if(asize>bsize){
+             int diff=asize-bsize;
+             System.out.println(diff);
+             while(diff-->0){
+                 a=a.next;
+             }
+             System.out.println(a.data);
+             
+         }else{
+             int diff=bsize-asize;
+             while(diff-->1){
+                 b=b.next;
+             }
+         }
+         
+         while(a!=null&&b!=null){
+                 if(a==b){
+                     return a.data;
+                 }
+                 a=a.next;
+                 b=b.next;
+        }
+        
+        return -1;
+	}
+
+	public static void main(String[] args) { 
+		LinkedList list = new LinkedList(); 
+
+		// creating first linked list 
+		list.head1 = new Node(3); 
+		list.head1.next = new Node(6); 
+		list.head1.next.next = new Node(15); 
+		list.head1.next.next.next = new Node(15); 
+		list.head1.next.next.next.next = new Node(30); 
+
+		// creating second linked list 
+		list.head2 = new Node(10); 
+		list.head2.next = new Node(15); 
+		list.head2.next.next = new Node(30); 
+
+		System.out.println("The node of intersection is " + list.intersectPoint(head1,head2)); 
+
+	} 
+} 

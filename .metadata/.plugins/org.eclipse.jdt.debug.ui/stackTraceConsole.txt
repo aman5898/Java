@@ -1,0 +1,33 @@
+pair4 lpair = isBst(node.left);
+			pair4 rpair = isBst(node.right);
+
+			if (lpair.Isbalanced == false || rpair.Isbalanced == false) {
+				pair4 p = new pair4();
+				p.Isbalanced = false;
+				return p;
+			}
+
+			pair4 mpair = new pair4();
+			mpair.max = Math.max(lpair.max, Math.max(rpair.max, node.data));
+			mpair.min = Math.max(lpair.min, Math.max(rpair.min, node.data));
+			if (node.data > lpair.max && node.data < rpair.min) {
+				mpair.Isbalanced = true;
+			}
+
+			return mpair;pair4 lpair = isBst(node.left);
+			pair4 rpair = isBst(node.right);
+
+			if (lpair.Isbalanced == false || rpair.Isbalanced == false) {
+				pair4 p = new pair4();
+				p.Isbalanced = false;
+				return p;
+			}
+
+			pair4 mpair = new pair4();
+			mpair.max = Math.max(lpair.max, Math.max(rpair.max, node.data));
+			mpair.min = Math.max(lpair.min, Math.max(rpair.min, node.data));
+			if (node.data > lpair.max && node.data < rpair.min) {
+				mpair.Isbalanced = true;
+			}
+
+			return mpair;

@@ -1,0 +1,51 @@
+package recursion;
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class FloodFill {
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int t = scn.nextInt();
+		while (t-- > 0) {
+			int n = scn.nextInt();
+			int m = scn.nextInt();
+			int[][] arr = new int[n][m];
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					arr[i][j] = scn.nextInt();
+				}
+			}
+			int x = scn.nextInt();
+			int y = scn.nextInt();
+			int k = scn.nextInt();
+			boolean[][] visited = new boolean[m][n];
+			floodFill(arr, x, y, arr[x][y], k, visited);
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					System.out.print(arr[i][j] + " ");
+				}
+			}
+		}
+	}
+
+	public static void floodFill(int[][] screen, int row, int col, int oldColor, int k, boolean[][] visited) {
+		if (row < 0 || col < 0 || row >= screen.length || col >= screen[0].length) {
+			return;
+		}
+		if (screen[row][col] != oldColor) {
+			return;
+		}
+		if (visited[row][col] == true) {
+			return;
+		}
+		visited[row][col] = true;
+		floodFill(screen, row + 1, col, oldColor, k, visited);
+		floodFill(screen, row - 1, col, oldColor, k, visited);
+		floodFill(screen, row, col + 1, oldColor, k, visited);
+		floodFill(screen, row, col - 1, oldColor, k, visited);
+		screen[row][col] = k;
+		visited[row][col] = false;
+	}
+}

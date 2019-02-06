@@ -1,0 +1,17 @@
+package ownHasmap;
+
+public class Client {
+
+	public static void main(String[] args) {
+		LinkedList<String> ll=new LinkedList<>();
+		ll.addfirst("Aman");
+		ll.addfirst("Aman2");
+		ll.addfirst("Aman3");
+		ll.addfirst("Aman4");
+		ll.addfirst("Aman5");
+		ll.addlast("Aman6");
+		ll.display();
+		
+	}
+
+}

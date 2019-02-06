@@ -1,0 +1,13 @@
+package aVl;
+
+
+public class client {
+
+	public static void main(String[] args) {
+		int[] sa = { 12, 25, 37, 50, 62, 75, 87 };
+		Avl bt = new Avl(sa);
+		bt.display();
+
+	}
+
+}

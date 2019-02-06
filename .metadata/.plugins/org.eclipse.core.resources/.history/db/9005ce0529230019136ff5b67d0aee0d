@@ -1,0 +1,85 @@
+package linkedList;
+
+import java.util.Scanner;
+
+public class Pep_JavaIP_9LinkedList_273DeleteNodesGreaterOnRight {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int a1 = sc.nextInt();
+		insert(a1);
+
+		for (int i = 1; i < n; i++) {
+			int a = sc.nextInt();
+			insert(a);
+		}
+//		reverseaList(head);
+//		deletenodes(head);
+		reverseaList(head);
+		display(head);
+	}
+
+	private static class Node {
+		int data;
+		Node next;
+
+		public Node(int data, Node next) {
+			this.data = data;
+			this.next = next;
+		}
+
+	}
+
+	static Node head;
+	static Node tail;
+	static int size;
+
+	public static void insert(int data) {
+
+		Node nn = new Node(data, null);
+		if (head == null) {
+			head = nn;
+			tail = nn;
+		} else {
+			tail.next = nn;
+			tail = nn;
+		}
+		size++;
+	}
+
+	public static void display(Node n) {
+		for (Node node = n; node != null; node = node.next) {
+			System.out.print(node.data + " ");
+		}
+	}
+
+	// ---------------------------------------------------------
+	// This is a functional problem. Only these functions have to be written.
+
+	private static class heapmover {
+		Node left;
+	}
+
+	public static void reverseaList(Node node) {
+		Node curr=node;
+		Node prev=null;
+		while(curr!=null) {
+			Node temp=curr.next;
+			curr.next=prev;
+			prev=curr;
+			curr=temp;
+		}
+		
+		node=prev;
+	}
+
+	
+
+	private static void deletenodes(Node head2) {
+		reverseaList(head2);
+	}
+
+	// --------------------------------------------------------
+
+}

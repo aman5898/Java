@@ -1,0 +1,91 @@
+package myHeap;
+
+import java.util.ArrayList;
+
+public class Heap {
+	ArrayList<Integer> data = new ArrayList<>();
+	boolean max;
+
+	public Heap(int[] arr, boolean max) {
+		this.max = max;
+		for (int val : arr) {
+			data.add(val);
+		}
+
+		for (int i = (data.size() / 2) - 1; i >= 0; i--) {
+			downheapify(i);
+		}
+	}
+
+	private boolean isHP(int pi, int ci) {
+		if (this.max == false) {
+			return this.data.get(pi) < this.data.get(ci);
+		} else {
+			return this.data.get(pi) > this.data.get(ci);
+		}
+	}
+
+	public void add(int val) {
+		data.add(val);
+		upheapify(data.size() - 1);
+	}
+
+	private void upheapify(int ci) {
+		if (ci == 0) {
+			return;
+		}
+		int pi = (ci - 1) / 2;
+		if (isHP(pi, ci) == false) {
+			swap(pi, ci);
+			upheapify(pi);
+		}
+	}
+
+	public int remove() {
+		swap(0, data.size() - 1);
+		int rv = data.remove(data.size() - 1);
+		downheapify(0);
+		return rv;
+	}
+
+	private void downheapify(int pi) {
+		int mini = pi;
+		int lci = 2 * pi + 1;
+		if (lci < data.size() && isHP(mini, lci) == false) {
+			mini = lci;
+		}
+
+		int rci = 2 * pi + 2;
+		if (rci < data.size() && isHP(mini, rci) == false) {
+			mini = rci;
+		}
+
+		if (pi != mini) {
+			swap(pi, mini);
+			downheapify(mini);
+		}
+	}
+
+	public int peek() {
+		return data.get(0);
+	}
+
+	private void swap(int i, int j) {
+		int ith = data.get(i);
+		int jth = data.get(j);
+		data.set(i, jth);
+		data.set(j, ith);
+	}
+
+	public int size() {
+		return this.data.size();
+	}
+
+	public boolean isEmpty() {
+		return this.data.isEmpty();
+	}
+
+	public void display() {
+		System.out.println(this.data);
+	}
+}
