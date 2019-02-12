@@ -1,0 +1,45 @@
+package string;
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class RemoveAdjacentDuplicate {
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int t = scn.nextInt();
+		scn.nextLine();
+		while (t-- > 0) {
+			String str = scn.nextLine();
+			System.out.println(removeDuplicate(str));
+		}
+	}
+
+	public static String removeDuplicate(String str) {
+		if (str.length() == 1) {
+			return str;
+		}
+		char leftch = str.charAt(0);
+		int i = 1;
+		for (; i < str.length(); i++) {
+			if (str.charAt(i) == leftch) {
+				continue;
+			} else {
+				break;
+			}
+		}
+		str = str.substring(i, str.length());
+		String ans = str.charAt(0) + removeDuplicate(str.substring(1, str.length()));
+		return ans;
+	}
+
+	public static boolean checkDuplicate(String str) {
+		for (int i = 1; i < str.length(); i++) {
+			if (str.charAt(i) == str.charAt(i - 1)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}

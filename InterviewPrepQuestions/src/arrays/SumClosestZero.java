@@ -1,0 +1,44 @@
+package arrays;
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class SumClosestZero {
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int t = scn.nextInt();
+		while (t-- > 0) {
+			int n = scn.nextInt();
+			int[] arr = new int[n];
+			for (int i = 0; i < n; i++) {
+				arr[i] = scn.nextInt();
+			}
+
+			System.out.println(sumToZero(arr));
+		}
+	}
+
+	public static int sumToZero(int[] arr) {
+		Arrays.sort(arr);
+		int hNi = -1;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] < 0) {
+				hNi = i;
+			}
+		}
+
+		if (hNi == arr.length - 1) {
+			return arr[hNi] + arr[hNi - 1];
+		}
+
+		if (hNi == -1 || hNi == 0) {
+			return arr[0] + arr[1];
+		}
+
+		if (hNi < arr.length - 2) {
+			return Math.min(arr[hNi] + arr[hNi + 1], arr[hNi + 1] + arr[hNi + 2]);
+		}
+		return arr[hNi] + arr[hNi + 1];
+	}
+}

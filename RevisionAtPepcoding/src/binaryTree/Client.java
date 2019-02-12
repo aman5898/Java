@@ -11,7 +11,8 @@ public class Client {
 		int[] arr = { 50, 25, 12, -1, 37, 30, -1, 40, -1, -1, -1, 75, 62, 60, -1, 70, -1, -1, 87, -1, -1, -1 };
 
 		BinaryTree bt = new BinaryTree(arr);
-		 bt.display();
+//		 bt.display();
+		 bt.printSpiral();
 //		 System.out.println("*****************************************************************");
 //		 bt.printsinglechild();
 

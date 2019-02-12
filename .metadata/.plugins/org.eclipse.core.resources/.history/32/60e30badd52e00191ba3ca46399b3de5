@@ -1,0 +1,11 @@
+package string;
+
+public class ExcelSheet {
+	public static void main(String[] args) {
+		sheet(1);
+	}
+	public static void sheet(int n) {
+		char ch=(char)(n+64);
+		System.out.println(ch);
+	}
+}

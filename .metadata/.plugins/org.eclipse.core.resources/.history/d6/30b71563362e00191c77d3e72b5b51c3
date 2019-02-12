@@ -1,0 +1,39 @@
+package backTracking;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class LexicographSubset {
+
+	public static void main(String[] args) {
+		System.out.println(lexicographSubsets("122"));
+//		ArrayList<String> list = new ArrayList<>();
+//		for(String str:lexicographSubsets("122")) {
+//			
+//		}
+	}
+
+	static HashSet<String> set = new HashSet<>();
+
+	public static ArrayList<String> lexicographSubsets(String str) {
+		if (str.length() == 1) {
+			ArrayList<String> list = new ArrayList<>();
+			list.add(str);
+			return list;
+		}
+		char ch = str.charAt(0);
+		String ros = str.substring(1);
+		ArrayList<String> rr = lexicographSubsets(ros);
+		ArrayList<String> mr = new ArrayList<>();
+		mr.add(ch + "");
+		for (String s : rr) {
+			mr.add(ch + s);
+		}
+		for (String s : rr) {
+			mr.add(s);
+		}
+
+		return mr;
+	}
+}

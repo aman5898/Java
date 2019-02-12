@@ -1,0 +1,35 @@
+package string;
+
+public class Interleaved {
+	public static void main(String[] args) {
+		System.out.println(interleave("XY","X","XXY",0,0,0));
+	}
+
+	public static boolean interleave(String a, String b, String c, int one, int two, int three) {
+		if (a.length() + b.length() != c.length()) {
+			return false;
+		}
+
+		if (one == a.length() && two == b.length() && three == c.length()) {
+			return true;
+		}
+
+		boolean bl = false;
+		if (one < a.length()) {
+			if (a.charAt(one) == c.charAt(three)) {
+				bl = interleave(a, b, c, one + 1, two, three + 1);
+			}
+		}
+
+		if (bl == true) {
+			return true;
+		}
+		if (two < b.length()) {
+			if (b.charAt(two) == c.charAt(three)) {
+				bl = interleave(a, b, c, one, two + 1, three + 1);
+			}
+		}
+
+		return bl;
+	}
+}

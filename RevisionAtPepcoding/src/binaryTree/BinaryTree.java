@@ -699,6 +699,34 @@ public class BinaryTree {
 
 	}
 
+	public void printSpiral() {
+		printSpiral(root);
+	}
+
+	public void printSpiral(Node node) {
+		// addLast removeFirst
+		LinkedList<Node> curr = new LinkedList<>();
+		LinkedList<Node> next = new LinkedList<>();
+		int level=0;
+		curr.addLast(node);
+		while (curr.size()>0) {
+			Node rp = curr.removeFirst();
+			System.out.println(rp.data);
+			if (rp.left != null) {
+				next.addLast(rp.left);
+			}
+			if (rp.right != null) {
+				next.addLast(rp.right);
+			}
+
+			if (curr.size()==0) {
+				curr = next;
+				next = new LinkedList<>();
+				level++;
+			}
+		}
+	}
+
 	public void transform2() {
 		transform2(root);
 	}

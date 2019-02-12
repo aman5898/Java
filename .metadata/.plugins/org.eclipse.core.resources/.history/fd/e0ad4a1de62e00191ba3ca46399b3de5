@@ -1,0 +1,19 @@
+package string;
+
+public class ExcelSheet {
+	public static void main(String[] args) {
+		sheet(51);
+	}
+
+	public static void sheet(int n) {
+		int quot = n / 26;
+		int rem = n % 26;
+		String res = "";
+		for (int i = 0; i < quot; i++) {
+			res += "A";
+		}
+		char ch = (char) (rem + 64);
+		res+=ch+"";
+		System.out.println(res);
+	}
+}
